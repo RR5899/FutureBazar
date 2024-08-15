@@ -1,0 +1,17 @@
+<nav class="bottom-nav">
+    <a routerLinkActive="active" mat-list-item (click)="openLink($event, 'seller-home')">
+        <i class="fa fa-2x fa-home"></i>
+    </a>
+
+    <a routerLinkActive="active" mat-list-item (click)="openLink($event, 'products')">
+        <i class="fa fa-2x fa-search"></i>
+    </a>
+
+    <a *ngIf="showAddProduct" routerLinkActive="active" mat-list-item (click)="openLink($event, 'add-product')"> 
+        <i class="fa fa-2x fa-square-plus"></i>
+    </a>
+
+    <a routerLinkActive="active" mat-list-item (click)="logout()">
+        <i class="fa fa-2x fa-solid fa-right-from-bracket"></i>
+    </a>
+</nav>

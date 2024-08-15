@@ -1,0 +1,15 @@
+<div class="category-filter">
+    <button (click)="goBack()" class="back-button" aria-label="Go back">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <input type="text" [(ngModel)]="filterText" placeholder="Filter categories" class="filter-input">
+</div>
+
+<div class="photo-gallery">
+    <div class="photo-frame" *ngFor="let category of categories | categoryFilter:filterText" (click)="navigateToSubcategories(category.id)">
+        <div class="photo-container">
+            <img [src]="category.photoUrl" [alt]="category.name" class="photo">
+        </div>
+        <div class="photo-name">{{ category.name }}</div>
+    </div>
+</div>

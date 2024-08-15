@@ -1,0 +1,43 @@
+<div class="container">
+  <div *ngIf="authService.isLoggedIn === false">
+    <div class="form-card">
+      <form *ngIf="!showSignUpForm" [formGroup]="loginForm">
+        <input formControlName="email" type="text" name="email" id="email" class="input-bg" placeholder="E-mail"
+          [required]="true">
+        <input formControlName="password" type="password" name="password" id="password" class="input-bg"
+          placeholder="Password" [required]="true">
+        <button class="button-submit" (click)="signInWithEmailAndPassword()"
+          [ngClass]="{'bg-theme-blue': loginForm.valid, 'bg-theme-gray': !loginForm.valid}"
+          [disabled]="!loginForm.valid">Sign In</button>
+        <div>Don't have an account? <a style="color: blue; cursor: pointer;" (click)="resetForm()">Sign up</a></div>
+      </form>
+
+      <form *ngIf="showSignUpForm" [formGroup]="signUpForm">
+        <input formControlName="firstName" type="text" name="first-name" id="first-name" class="input-bg"
+          placeholder="First Name" [required]="showSignUpForm">
+        <input formControlName="lastName" type="text" name="last-name" id="last-name" class="input-bg" placeholder="Last Name" [required]="showSignUpForm">
+        <input formControlName="email" type="text" name="email" id="email" class="input-bg" placeholder="E-mail"
+          [required]="true">
+        <input formControlName="password" type="password" name="password" id="password" class="input-bg"
+          placeholder="Password" [required]="true">
+        <button class="button-submit" (click)="registerWithEmailAndPassword()" style="margin-bottom: 10px;"
+          [ngClass]="{'bg-theme-blue': signUpForm.valid, 'bg-theme-gray': !signUpForm.valid}"
+          [disabled]="!signUpForm.valid">Sign Up as Customer</button>
+        <button class="button-submit" (click)="registerSeller()"
+          [ngClass]="{'bg-theme-blue': signUpForm.valid, 'bg-theme-gray': !signUpForm.valid}"
+          [disabled]="!signUpForm.valid">Sign Up as Seller</button>
+        <div style="display: flex;
+        justify-content: center; margin-top: 5px">Already have an account? <a style="color: blue; cursor: pointer;;" (click)="resetForm()">Sign In</a></div>
+      </form>
+
+      <div class="center-container font-sans-serif pd-5px">Or</div>
+      <div class="center-container">
+        <button class="social-btn" (click)="loginWithGoogle()">
+          <span class="social-logo-wrapper"><img class="social-logo"
+              src="../../../assets/images/google-logo-DXjxL3jJ.svg" alt="Google logo"></span><span
+            class="social-text">Continue with Google</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

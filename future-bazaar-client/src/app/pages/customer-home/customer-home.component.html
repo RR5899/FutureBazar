@@ -1,0 +1,40 @@
+<div class="main-container">
+  <search-product></search-product>
+  <section class="categories">
+    <div class="section-header" (click)="goToAllCategories()">
+      <h2>Categories</h2>
+      <span class="view-more">View More <i class="fa-solid fa-caret-right"></i></span>
+    </div>
+    <div class="category-container">
+      <div class="category-item" (click)="goToAllCategories()">
+        <img src="../../../assets/images/all.jpg" alt="All Categories" class="circle-image">
+        <span class="category-name">All</span>
+      </div>
+      <div *ngFor="let category of categories" class="category-item" (click)="navigateToSubcategories(category.id)">
+        <img [src]="category.photoUrl" [alt]="category.name" class="circle-image">
+        <span class="category-name">{{category.name}}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="products">
+    <div class="section-header">
+      <h2>Most Searched</h2>
+    </div>
+    <div *ngIf="!mostSearchedProducts || mostSearchedProducts?.length === 0" class="no-products">No Products Found</div>
+    <div class="product-grid">
+      <app-product-card *ngFor="let product of mostSearchedProducts" (click)="productClick(product)"
+        [imgUrl]="product?.Photos?.[0] || ''" [discountPrice]="product.DiscountedPrice" [productName]="product.Name"
+        [originalPrice]="product.OriginalPrice" [productId]="product.Id" [shopName]="product.Shop.Name" 
+        [distance]="product.Distance">
+      </app-product-card>
+    </div>
+  </section>
+
+  <section class="trending-shops">
+    <div class="section-header">
+      <h2>Trending Shops</h2>
+    </div>
+    <!-- Add content for trending shops here -->
+  </section>
+</div>

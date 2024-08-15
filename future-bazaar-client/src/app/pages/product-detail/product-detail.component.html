@@ -1,0 +1,63 @@
+<div class="product-filter">
+    <button (click)="goBack()" class="back-button" aria-label="Go back">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <input type="text" [(ngModel)]="searchProduct" placeholder="Search Products" class="filter-input">
+</div>
+
+<div class="carousel-container">
+    <owl-carousel-o [options]="customOptions">
+        <ng-container *ngFor="let slide of product?.Photos">
+            <ng-template carouselSlide>
+                <div class="image-wrapper">
+                    <img [src]="slide" [title]="product?.Name" [alt]="product?.Name">
+                </div>
+            </ng-template>
+        </ng-container>
+    </owl-carousel-o>
+</div>
+
+<div class="product-detail-container">
+
+    <div class="product-name">{{product?.Name}}</div>
+
+    <div class="contact-container">
+        <div class="btn-call">
+            <i class="fa-solid fa-phone"></i>
+            <span style="font-size: 16px;">&nbsp;&nbsp;Call</span>
+            <a style="display: none;" href="tel:{{product?.Shop?.PhoneNumber}}"></a>
+        </div>
+        <div class="btn-share">
+            <i class="fa-solid fa-share"></i>
+            <span style="font-size: 16px;">&nbsp;&nbsp;Share</span>
+        </div>
+        <div *ngIf="isSellerLoggedIn" class="btn-share" (click)="editProduct()">
+            <i class="fas fa-edit"></i>
+            <span style="font-size: 16px;">&nbsp;&nbsp;Edit</span>
+        </div>
+        <div *ngIf="isSellerLoggedIn" class="btn-share" (click)="deleteProduct()">
+            <i class="fa-solid fa-trash"></i>
+            <span style="font-size: 16px;">&nbsp;&nbsp;Delete</span>
+        </div>
+    </div>
+
+    <div class="shop-info">
+        <h2 class="shop-name">Description</h2>
+        <div>{{product.Description}}</div>
+    </div>
+
+    <div class="shop-info">
+        <h2 class="shop-name">Shop Details</h2>
+        <div class="shop-details">
+            <div class="shop-name">{{product?.Shop?.Name}}</div>
+            <address class="shop-address">
+                {{product?.Shop?.Address?.StreetAddress}}, {{product?.Shop?.Address?.City}},
+                {{product?.Shop?.Address?.PostalCode}}
+            </address>
+            <div class="distance-wrapper">
+                <i class="fa-solid fa-location-dot"></i>
+                <span class="distance">{{ product?.Distance }} km</span>
+            </div>
+        </div>
+    </div>
+</div>

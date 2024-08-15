@@ -1,0 +1,27 @@
+
+<div style="padding: 15px; display: flex;">
+    <button (click)="goBack()" class="back-button" aria-label="Go back">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <input class="form-control search-icon" placeholder="Search" type="text" name="search-product" id="search-product"
+    [(ngModel)]="search">
+</div>
+<div id="products" style="padding: 15px;">
+  <div *ngIf="products.length === 0" style="display: flex; align-items: center;">No Products Found</div>
+  <div style="display: flex; justify-content: space-between; gap: 4px;">
+      <div *ngFor="let product of products | filterByName:search">
+          <app-product-card (click)="productClick(product)"
+          [isLinear]="false"
+          [imgUrl]="product?.Photos?.[0] || ''"
+          [discountPrice]="product.DiscountedPrice"
+          [productName]="product.Name"
+          [originalPrice]="product.OriginalPrice"
+          [productId]="product.Id"
+          [shopName]="product.Name"
+          [distance]="product.Distance"
+          [address]="product.Shop.Address.StreetAddress + ', ' + product.Shop.Address.City"
+          [shopName]="product.Shop.Name"
+          ></app-product-card>
+      </div>
+  </div>
+  </div>

@@ -1,0 +1,69 @@
+<div style="height: -webkit-fill-available;">
+    <div class="col-auto" style="padding: 7px; display: flex; justify-content: space-between; align-items: center;">
+        <search-product></search-product>
+        <!-- <i class="fa-solid fa-location-dot" style="color: red;"></i> -->
+    </div>
+    
+    <mat-card id="overview" style="padding: 15px; box-shadow: none;">
+        <div style="display: flex; justify-content: space-between;">
+            <h2 style="font-family: 'Poppins';">Overview</h2>
+            <div class="">
+                <mat-select [(ngModel)]="duration" [panelWidth]="'200px'" style="margin-right: 23px;">
+                    <mat-option [value]="'1 Day'">1 Day</mat-option>
+                    <mat-option [value]="'1 Week'">1 Week</mat-option>
+                    <mat-option [value]="'1 Month'">1 Month</mat-option>
+                    <mat-option [value]="'Custom'">Custom </mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div style="display: grid;grid-template-columns: repeat(2, 1fr);grid-gap: 10px;">
+            <div *ngFor="let overview of overviewDetail;">
+                <mat-card style="padding-bottom: 15px; height: 90px;">
+                    <mat-card-header>
+                        <mat-card-title>{{overview.count}}</mat-card-title>
+                        <mat-card-subtitle>{{overview.label}}</mat-card-subtitle>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+        </div>
+    </mat-card>
+
+    <div style="padding: 15px;">
+        <div style="display: flex; justify-content: space-between;" (click)="goToAllCategories()">
+            <h2 style="font-family: 'Poppins';">Categories</h2>
+            <span style="font-family: 'Poppins'; color: #2CA8FF; cursor: pointer;">View More <i class="fa-solid fa-caret-right"></i></span>
+        </div>
+        <div class="category-container">
+            <div id="all-categories" style="display: flex;flex-direction: column;align-items: center;" (click)="goToAllCategories()">
+                <img src="../../../assets/images/all.jpg" alt="All Categories" class="circle-image">
+                <span style="font-weight: 800;">All</span>
+            </div>
+            <div *ngFor="let category of categories" style="display: flex;flex-direction: column;align-items: center;" (click)="navigateToSubcategories(category.id)">
+                <img [src]="category.photoUrl" alt="All Categories" class="circle-image">
+                <span style="font-weight: 800;">{{category.name}}</span>
+            </div>
+        </div>
+    </div>
+   
+    <section class="products-section">
+        <div class="section-header">
+          <h2 class="section-title">Products</h2>
+          <span class="view-more" (click)="goToAllProducts()">
+            View More <i class="fa-solid fa-caret-right"></i>
+          </span>
+        </div>
+        <div *ngIf="products.length === 0" class="no-products">No Products Found</div>
+        <div class="product-grid">
+          <app-product-card *ngFor="let product of products"
+            (click)="productClick(product)"
+            [imgUrl]="product?.Photos?.[0] || ''"
+            [discountPrice]="product.DiscountedPrice"
+            [productName]="product.Name"
+            [originalPrice]="product.OriginalPrice"
+            [productId]="product.Id"
+            [distance]="product.Distance"
+            [shopName]="product.Shop.Name">
+          </app-product-card>
+        </div>
+      </section>
+</div>

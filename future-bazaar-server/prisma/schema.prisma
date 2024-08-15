@@ -1,0 +1,200 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model category {
+  CategoryId       String     @id @db.Char(36)
+  CategoryName     String     @db.VarChar(255)
+  ParentCategoryId String?    @db.Char(36)
+  Level            Int        @default(0)
+  CreatedOn        DateTime   @default(now()) @db.DateTime(0)
+  PhotoUrl         String?    @db.Text
+  CreatedBy        String?    @db.Char(36)
+  UpdatedOn        DateTime?  @db.DateTime(0)
+  UpdatedBy        String?    @db.Char(36)
+  category         category?  @relation("categoryTocategory", fields: [ParentCategoryId], references: [CategoryId], onDelete: Cascade, map: "fk_category_parent")
+  other_category   category[] @relation("categoryTocategory")
+  product          product[]
+
+  @@index([ParentCategoryId], map: "fk_category_parent")
+}
+
+model permission {
+  PermissionId   String           @id @db.Char(36)
+  PermissionName String           @db.VarChar(50)
+  CreatedOn      DateTime         @default(now()) @db.DateTime(0)
+  CreatedBy      String?          @db.Char(36)
+  UpdatedOn      DateTime?        @db.DateTime(0)
+  UpdatedBy      String?          @db.Char(36)
+  rolepermission rolepermission[]
+}
+
+model product {
+  ProductId       String          @id @db.Char(36)
+  Name            String          @db.VarChar(255)
+  ShopId          String          @db.Char(36)
+  CategoryId      String          @db.Char(36)
+  SubCategoryId   String?         @db.Char(36)
+  OriginalPrice   Int
+  DiscountedPrice Int?
+  Stocks          Int?
+  Status          String?         @db.VarChar(36)
+  Description     String?         @db.Text
+  ProductViews    Int?
+  CreatedOn       DateTime        @default(now()) @db.DateTime(0)
+  CreatedBy       String?         @db.Char(36)
+  UpdatedOn       DateTime        @default(now()) @db.DateTime(0)
+  UpdatedBy       String?         @db.Char(36)
+  category        category        @relation(fields: [CategoryId], references: [CategoryId], onDelete: NoAction, onUpdate: NoAction, map: "FK_product_category")
+  shop            shop            @relation(fields: [ShopId], references: [ShopId], onDelete: NoAction, onUpdate: NoAction, map: "FK_product_shop")
+  productphotos   productphotos[]
+
+  @@index([ShopId], map: "FK_product_shop_idx")
+  @@index([CategoryId], map: "FK_product_category_idx")
+}
+
+model productphotos {
+  ProductPhotoId String   @id @db.Char(36)
+  ProductId      String   @db.Char(36)
+  PhotoUrl       String   @db.Text
+  CreatedOn      DateTime @default(now()) @db.DateTime(0)
+  CreatedBy      String?  @db.Char(36)
+  UpdatedOn      DateTime @default(now()) @db.DateTime(0)
+  UpdatedBy      String?  @db.Char(36)
+  product        product  @relation(fields: [ProductId], references: [ProductId], onDelete: Cascade, onUpdate: NoAction, map: "FK_productphotos_product_ProductId")
+
+  @@index([ProductId], map: "FK_productphotos_product")
+}
+
+model role {
+  RoleId         String           @id @db.Char(36)
+  RoleName       String           @db.VarChar(50)
+  Description    String           @db.Text
+  ShopId         String?          @db.Char(36)
+  CreatedOn      DateTime         @default(now()) @db.DateTime(0)
+  CreatedBy      String?          @db.Char(36)
+  UpdatedOn      DateTime?        @db.DateTime(0)
+  UpdatedBy      String?          @db.Char(36)
+  shop           shop?            @relation(fields: [ShopId], references: [ShopId], onDelete: NoAction, onUpdate: NoAction, map: "FK_role_shop")
+  rolepermission rolepermission[]
+  userrole       userrole[]
+
+  @@index([ShopId], map: "FK_role_shop_idx")
+}
+
+model rolepermission {
+  RolePermissionId String     @id @db.Char(36)
+  RoleId           String     @db.Char(36)
+  PermissionId     String     @db.Char(36)
+  permission       permission @relation(fields: [PermissionId], references: [PermissionId], onDelete: NoAction, onUpdate: NoAction, map: "FK_469125a32bd77f774e334fec5f7")
+  role             role       @relation(fields: [RoleId], references: [RoleId], onDelete: NoAction, onUpdate: NoAction, map: "FK_9d2512803e246e52a56fb9777a3")
+
+  @@index([PermissionId], map: "rolepermission_lbfk_permission_idx")
+  @@index([RoleId], map: "rolepermission_lbfk_role_idx")
+}
+
+model shop {
+  ShopId       String        @id @db.Char(36)
+  ShopName     String        @db.VarChar(255)
+  GstNumber    String        @db.VarChar(255)
+  Location     String        @db.VarChar(255)
+  PhoneNumber  String        @db.VarChar(20)
+  Description  String?       @db.Text
+  OpensAt      DateTime?     @db.DateTime(0)
+  ClosesAt     DateTime?     @db.DateTime(0)
+  UserViews    Int?
+  ContactCount Int?
+  CreatedOn    DateTime      @default(now()) @db.DateTime(0)
+  CreatedBy    String?       @db.Char(36)
+  UpdatedOn    DateTime?     @db.DateTime(0)
+  UpdatedBy    String?       @db.Char(36)
+  product      product[]
+  role         role[]
+  shopaddress  shopaddress[]
+}
+
+model shoprequest {
+  ShopRequestId String    @id @db.VarChar(36)
+  UserId        String    @unique(map: "UserId_UNIQUE") @db.Char(36)
+  CategoryId    String    @db.VarChar(36)
+  ShopName      String    @db.VarChar(255)
+  StreetAddress String?   @db.VarChar(255)
+  City          String    @db.VarChar(255)
+  State         String    @db.VarChar(255)
+  PostalCode    String    @db.VarChar(20)
+  PhoneNumber   String    @db.VarChar(20)
+  Status        String?   @db.VarChar(50)
+  RequestDate   DateTime? @default(now()) @db.DateTime(0)
+  ApprovalDate  DateTime? @db.DateTime(0)
+  ApprovedBy    String?   @db.Char(36)
+
+  @@index([ApprovedBy], map: "ApprovedBy")
+}
+
+model user {
+  UserId      String        @id @db.Char(36)
+  Email       String        @unique(map: "Email_UNIQUE") @db.VarChar(255)
+  FirstName   String?       @db.VarChar(50)
+  LastName    String?       @db.VarChar(50)
+  CreatedOn   DateTime      @default(now()) @db.DateTime(0)
+  CreatedBy   String?       @db.Char(36)
+  UpdatedOn   DateTime?     @db.DateTime(0)
+  UpdatedBy   String?       @db.Char(36)
+  useraddress useraddress[]
+  userrole    userrole[]
+}
+
+model useraddress {
+  UserAddressId String    @id @db.VarChar(36)
+  UserId        String    @db.Char(36)
+  StreetAddress String?   @db.VarChar(255)
+  City          String?   @db.VarChar(100)
+  State         String?   @db.VarChar(100)
+  PostalCode    String?   @db.VarChar(20)
+  Country       String?   @db.VarChar(100)
+  Latitude      Decimal?  @db.Decimal(10, 6)
+  Longitude     Decimal?  @db.Decimal(10, 6)
+  CreatedOn     DateTime? @db.DateTime(0)
+  CreatedBy     String?   @db.Char(36)
+  UpdatedOn     DateTime? @db.DateTime(0)
+  UpdatedBy     String?   @db.Char(36)
+  user          user      @relation(fields: [UserId], references: [UserId], onDelete: NoAction, onUpdate: NoAction, map: "FK_useraddress_user")
+
+  @@index([UserId], map: "FK_useraddress_user_idx")
+}
+
+model userrole {
+  UserRoleID String  @id @db.Char(36)
+  UserId     String  @db.Char(36)
+  RoleId     String  @db.Char(36)
+  ShopId     String? @db.Char(36)
+  role       role    @relation(fields: [RoleId], references: [RoleId], onDelete: Cascade, onUpdate: NoAction, map: "FK_userrole_role")
+  user       user    @relation(fields: [UserId], references: [UserId], onDelete: Cascade, onUpdate: NoAction, map: "FK_userrole_user")
+
+  @@index([RoleId], map: "FK_userrole_role")
+  @@index([UserId], map: "FK_userrole_user")
+}
+
+model shopaddress {
+  ShopAddressId String    @id @db.VarChar(36)
+  ShopId        String    @db.Char(36)
+  StreetAddress String?   @db.VarChar(255)
+  City          String?   @db.VarChar(100)
+  State         String?   @db.VarChar(100)
+  PostalCode    String?   @db.VarChar(20)
+  Country       String?   @db.VarChar(100)
+  Latitude      Decimal?  @db.Decimal(10, 6)
+  Longitude     Decimal?  @db.Decimal(10, 6)
+  CreatedOn     DateTime? @db.DateTime(0)
+  CreatedBy     String?   @db.Char(36)
+  UpdatedOn     DateTime? @db.DateTime(0)
+  UpdatedBy     String?   @db.Char(36)
+  shop          shop      @relation(fields: [ShopId], references: [ShopId], onDelete: NoAction, onUpdate: NoAction, map: "FK_shopaddress_shop")
+
+  @@index([ShopId], map: "FK_shopaddress_shop_idx")
+}

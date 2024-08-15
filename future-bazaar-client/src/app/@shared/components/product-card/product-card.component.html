@@ -1,0 +1,20 @@
+<div class="product-card product-card--linear">
+  <div class="product-card__image-container" [ngClass]="{'product-card__image-container--grid': !isLinear}">
+    <img [src]="imgUrl" [alt]="productName" class="product-card__image" [ngClass]="{'product-card__image--responsive': !isLinear}">
+  </div>
+  <div class="product-card__details">
+    <h3 class="product-card__name" [title]="productName">{{ productName }}</h3>
+    <div class="product-card__price">
+      <span class="product-card__discount-badge">{{ productPercent }}%<i class="fa-solid fa-arrow-down product-card__icon--green"></i></span>
+      <span class="product-card__original-price">{{ originalPrice | inrCurrency }}</span>
+      <b class="product-card__discount-price">{{ discountPrice | inrCurrency }}</b>
+    </div>
+    <div class="product-card__info">
+      <span [title]="shopName" class="product-card__shop-name">{{ shopName }}</span>
+      <div class="product-card__distance">
+        <i class="fa-solid fa-location-dot product-card__icon--red"></i>
+        <span class="product-card__distance-text">{{ distance }} km</span>
+      </div>
+    </div>
+  </div>
+</div>

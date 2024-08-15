@@ -1,0 +1,87 @@
+<!-- productForm -->
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="container" style="padding: 13px;">
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="productName" class="form-label">Product Name (required)</label>
+            <input type="text" class="form-control" id="productName" formControlName="productName" required>
+            <div *ngIf="productForm?.get('productName').hasError('required') && productForm?.get('productName').touched"
+                class="text-danger ff-open-sans">Product Name is required</div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" formControlName="description"></textarea>
+        </div>
+
+        <div class="col-md-6">
+            <label for="originalPrice" class="form-label">Original Price</label>
+            <input type="number" class="form-control" id="originalPrice" formControlName="originalPrice">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="discountedPrice" class="form-label">Discounted Price</label>
+            <input type="number" class="form-control" id="discountedPrice" formControlName="discountedPrice">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="category" class="form-label">Category (required)</label>
+            <select class="form-control" id="category" formControlName="category" (change)="categoryChange($event)" required>
+                <option value="" disabled selected>Select a category</option>
+                <option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.name }}
+                </option>
+            </select>
+            <div *ngIf="productForm?.get('category')?.hasError('required') && productForm?.get('category')?.touched"
+                class="text-danger ff-open-sans">Category is required</div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="subcategory" class="form-label">Sub Category (required)</label>
+            <select class="form-control" id="subcategory" formControlName="subcategory" required>
+                <option value="" disabled selected>Select a subcategory</option>
+                <option *ngFor="let category of subcategoriesByCategory" [value]="category.id">
+                    {{ category.name }}
+                </option>
+            </select>
+            <div *ngIf="productForm?.get('subcategory')?.hasError('required') && productForm?.get('subcategory')?.touched"
+                class="text-danger ff-open-sans">Sub Category is required</div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="stocks" class="form-label">Stocks (required)</label>
+            <input type="number" class="form-control" id="stocks" formControlName="stocks" required>
+            <div *ngIf="productForm?.get('stocks')?.hasError('required') && productForm?.get('stocks')?.touched"
+                class="text-danger ff-open-sans">Stocks is required</div>
+        </div>
+
+        <!-- <div class="col-md-6 mb-3">
+            <label for="status" class="form-label">Status (required)</label>
+            <input type="text" class="form-control" id="status" formControlName="status" required>
+            <div *ngIf="productForm?.get('status')?.hasError('required') && productForm?.get('status')?.touched"
+                class="text-danger ff-open-sans">Status is required</div>
+        </div> -->
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="photos" class="form-label">Photos</label>
+        <input type="file" class="form-control" id="photos" multiple accept=".png, .jpg, .jpeg, .heic" (change)="onImageSelect($event)">
+    </div>
+
+    <div class="carousel-container">
+        <owl-carousel-o [options]="customOptions">
+            <ng-container *ngFor="let slide of selectedImages">
+                <ng-template carouselSlide>
+                    <div class="image-wrapper">
+                        <img [src]="slide">
+                    </div>
+                </ng-template>
+            </ng-container>
+        </owl-carousel-o>
+    </div>
+    <button type="submit" class="btn btn-primary ff-open-sans" [disabled]="productForm.invalid">Submit</button>
+</form>

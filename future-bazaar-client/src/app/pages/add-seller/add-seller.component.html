@@ -1,0 +1,74 @@
+<form [formGroup]="shopForm" (ngSubmit)="onSubmit()" class="container" style="padding: 13px;">
+  <div class="row mb-3">
+    <div class="col-md-6 mb-3">
+      <label for="shopName" class="form-label">Shop Name (required)</label>
+      <input type="text" class="form-control" id="shopName" formControlName="shopName" required>
+      <div *ngIf="shopForm.get('shopName').hasError('required') && shopForm.get('shopName').touched"
+        class="text-danger ff-open-sans">Shop Name is required</div>
+    </div>
+
+    <div class="col-md-6">
+      <label for="ownerName" class="form-label">Owner Name</label>
+      <input type="text" class="form-control" id="ownerName" formControlName="ownerName">
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6 mb-3">
+      <label for="gstNumber" class="form-label">GST number (required)</label>
+      <input type="text" class="form-control" id="gstNumber" formControlName="gstNumber" required>
+      <div *ngIf="shopForm.get('gstNumber').hasError('required') && shopForm.get('gstNumber').touched"
+        class="text-danger ff-open-sans">GST Number is required</div>
+    </div>
+    <div class="col-md-6">
+      <label for="email" class="form-label">E-mail (optional)</label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6 mb-3">
+      <label for="location" class="form-label">Location (required)</label>
+      <input type="text" class="form-control" id="location" formControlName="location" required>
+      <div *ngIf="shopForm.get('location').hasError('required') && shopForm.get('location').touched"
+        class="text-danger ff-open-sans">Location is required</div>
+    </div>
+    <div class="col-md-6">
+      <label for="phoneNumber" class="form-label">Phone number (required)</label>
+      <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber" required>
+      <div *ngIf="shopForm.get('phoneNumber').hasError('required') && shopForm.get('phoneNumber').touched"
+        class="text-danger ff-open-sans">Phone Number is required</div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6 mb-3">
+      <label for="shopPhoneNumber" class="form-label">Shop phone number (required)</label>
+      <input type="tel" class="form-control" id="shopPhoneNumber" formControlName="shopPhoneNumber" required>
+      <div *ngIf="shopForm.get('shopPhoneNumber').hasError('required') && shopForm.get('shopPhoneNumber').touched"
+        class="text-danger ff-open-sans">Shop Phone Number is required</div>
+    </div>
+    <div class="col-md-6" >
+      <label for="categories" class="form-label">Categories (required)</label>
+      <input type="text" class="form-control" id="categories" formControlName="categories" required>
+      <div *ngIf="shopForm.get('categories').hasError('required') && shopForm.get('categories').touched"
+        class="text-danger ff-open-sans">Categories are required</div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <label for="shopDescription" class="form-label">Shop Description (optional)</label>
+      <textarea class="form-control" id="shopDescription" rows="3" formControlName="shopDescription"></textarea>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="shopTiming" class="form-label">Shop Timing (optional)</label>
+      <input type="text" class="form-control" id="shopTiming" formControlName="shopTiming">
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary ff-open-sans">Submit</button>
+</form>

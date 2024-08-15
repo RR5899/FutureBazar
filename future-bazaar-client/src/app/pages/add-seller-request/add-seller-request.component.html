@@ -1,0 +1,60 @@
+<form [formGroup]="addSellerForm" (ngSubmit)="onSubmit()" class="container" style="padding: 13px;">
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="shopName" class="form-label">Shop Name (required)</label>
+            <input type="text" class="form-control" id="shopName" formControlName="shopName" required>
+            <div *ngIf="addSellerForm.get('shopName').hasError('required') && addSellerForm.get('shopName').touched"
+                class="text-danger ff-open-sans">Shop Name is required</div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="shopDescription" class="form-label">Shop Description</label>
+            <input type="text" class="form-control" id="shopDescription" formControlName="shopDescription" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="category" class="form-label">Category (required)</label>
+            <input type="text" class="form-control" id="category" formControlName="category">
+            <div *ngIf="addSellerForm.get('category').hasError('required') && addSellerForm.get('category').touched"
+                class="text-danger ff-open-sans">Category is required</div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="streetAddress" class="form-label">Street Address (required)</label>
+            <input type="text" class="form-control" id="streetAddress" formControlName="streetAddress" required>
+            <div *ngIf="addSellerForm.get('streetAddress').hasError('required') && addSellerForm.get('streetAddress').touched"
+                class="text-danger ff-open-sans">Street Address is required</div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="city" class="form-label">City (required)</label>
+            <input type="text" class="form-control" id="city" formControlName="city" required>
+            <div *ngIf="addSellerForm.get('city').hasError('required') && addSellerForm.get('city').touched"
+                class="text-danger ff-open-sans">City is required</div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="state" class="form-label">State (required)</label>
+            <input type="text" class="form-control" id="state" formControlName="state" required>
+            <div *ngIf="addSellerForm.get('state').hasError('required') && addSellerForm.get('state').touched"
+                class="text-danger ff-open-sans">State is required</div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+            <label for="pinCode" class="form-label">Pin Code (required)</label>
+            <input type="text" class="form-control" id="pinCode" formControlName="pinCode" required>
+            <div *ngIf="addSellerForm.get('pinCode').hasError('required') && addSellerForm.get('pinCode').touched"
+                class="text-danger ff-open-sans">Pin Code is required</div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary ff-open-sans">Submit</button>
+</form>
